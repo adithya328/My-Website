@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Smart Radar & AI Camera Elephant Detection Alert System</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#081b12;
+color:white;
+overflow-x:hidden;
+}
+
+.hero{
+background:linear-gradient(135deg,#14532d,#052e16);
+padding:60px 20px;
+text-align:center;
+}
+
+.hero h1{
+font-size:48px;
+margin-bottom:20px;
+}
+
+.hero span{
+color:#7CFC00;
+}
+
+.hero p{
+max-width:850px;
+margin:auto;
+font-size:18px;
+line-height:1.8;
+color:#d1fae5;
+}
+
+.status{
+width:90%;
+max-width:650px;
+margin:35px auto;
+padding:20px;
+background:#14532d;
+border-radius:15px;
+font-size:18px;
+font-weight:bold;
+box-shadow:0 0 15px rgba(124,252,0,.4);
+}
+
+.dashboard{
+padding:40px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+}
+
+.card{
+background:#163524;
+padding:25px;
+border-radius:15px;
+box-shadow:0 0 15px rgba(124,252,0,.2);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+}
+
+.card h3{
+margin-bottom:15px;
+color:#7CFC00;
+}
+
+.radar{
+width:220px;
+height:220px;
+margin:20px auto;
+border:3px solid #7CFC00;
+border-radius:50%;
+position:relative;
+overflow:hidden;
+}
+
+.scan{
+position:absolute;
+width:50%;
+height:3px;
+background:#7CFC00;
+top:50%;
+left:50%;
+transform-origin:left;
+animation:rotate 3s linear infinite;
+}
+
+@keyframes rotate{
+from{transform:rotate(0deg);}
+to{transform:rotate(360deg);}
+}
+
+.camera-view{
+position:relative;
+margin-top:20px;
+}
+
+.camera-view img{
+width:100%;
+border-radius:12px;
+}
+
+#detectBox{
+position:absolute;
+top:20%;
+left:18%;
+width:55%;
+padding:8px;
+border:3px solid red;
+background:rgba(255,0,0,.45);
+color:white;
+font-weight:bold;
+text-align:center;
+display:none;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin-top:15px;
+}
+
+.stat{
+background:#14532d;
+padding:15px;
+border-radius:10px;
+text-align:center;
+font-weight:bold;
+}
+
+#clock{
+font-size:22px;
+margin-top:20px;
+color:#7CFC00;
+}
+
+.alert{
+background:#b91c1c!important;
+animation:pulse .8s infinite alternate;
+}
+
+@keyframes pulse{
+from{transform:scale(1);}
+to{transform:scale(1.03);}
+}
+
+footer{
+background:#020402;
+padding:20px;
+text-align:center;
+color:#7CFC00;
+margin-top:30px;
+}
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:35px;
+}
+
+.hero p{
+font-size:16px;
+}
+
+.dashboard{
+grid-template-columns:1fr;
+padding:20px;
+}
+
+.radar{
+width:180px;
+height:180px;
+}
+
+}
+
+</style>
+
+</head>
+<body>
+
+<section class="hero">
+
+<h1>
+🐘 Smart <span>Radar & AI Camera</span><br>
+Elephant Detection Alert System
+</h1>
+
+<p>
+This system combines Smart Radar and AI-powered cameras to detect elephant movement near forest borders. AI identifies elephants, radar tracks their movement, and emergency alerts are automatically sent to nearby residents and forest officers.
+</p>
+
+<div class="status" id="status">
+
+🟢 System Active
+
+<br><br>
+
+📡 Smart Radar Monitoring
+
+<br>
+
+📷 AI Camera Monitoring
+
+<br>
+
+🤖 AI Detection Ready
+
+</div>
+
+<div id="clock"></div>
+
+</section>
+
+<section class="dashboard">
+
+<div class="card">
+
+<h3>📡 Smart Radar Scanner</h3>
+
+<div class="radar">
+
+<div class="scan"></div>
+
+</div>
+
+<p>Scanning nearby forest areas...</p>
+
+</div>
+
+<div class="card">
+
+<h3>📷 AI Camera Detection</h3>
+
+<div class="camera-view">
+
+<img
+id="elephantImg"
+src="https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=800"
+alt="Elephant">
+
+<div id="detectBox">
+
+🐘 Elephant Detected
+
+<br>
+
+🎯 Confidence : 98%
+
+</div>
+
+</div>
+
+<p id="cameraStatus">
+
+🟢 Camera Active
+
+<br>
+
+Monitoring Forest Pathway...
+
+</p>
+
+</div>
+<div class="card">
+
+<h3>📍 Live Location</h3>
+
+<p id="location">
+Forest Border - Zone A
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>📊 Detection Statistics</h3>
+
+<div class="stats">
+
+<div class="stat">
+Detection<br>
+<span id="detect">0</span>
+</div>
+
+<div class="stat">
+Alerts<br>
+<span id="alerts">0</span>
+</div>
+
+<div class="stat">
+Residents<br>
+186
+</div>
+
+<div class="stat">
+Officers<br>
+12
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<footer>
+
+© 2026 Smart Radar & AI Camera Elephant Detection Alert System
+
+<br><br>
+
+Developed for Wildlife Safety & Human-Elephant Conflict Prevention
+
+</footer>
+
+<script>
+// Live Clock
+setInterval(function(){
+
+document.getElementById("clock").innerHTML =
+"🕒 Live Time : " + new Date().toLocaleTimeString();
+
+},1000);
+
+
+// Emergency Siren
+function alarm(){
+
+const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+const osc = ctx.createOscillator();
+const gain = ctx.createGain();
+
+osc.type = "sawtooth";
+
+osc.connect(gain);
+gain.connect(ctx.destination);
+
+gain.gain.value = 0.25;
+
+osc.start();
+
+let high = true;
+
+const siren = setInterval(function(){
+
+osc.frequency.value = high ? 1000 : 500;
+high = !high;
+
+},200);
+
+setTimeout(function(){
+
+clearInterval(siren);
+
+osc.stop();
+
+ctx.close();
+
+},3000);
+
+}
+
+
+// AI Detection Simulation
+setTimeout(function(){
+
+// Main Status
+let status = document.getElementById("status");
+
+status.classList.add("alert");
+
+status.innerHTML =
+
+"🔴 EMERGENCY ALERT<br><br>" +
+
+"🐘 Elephant Detected<br>" +
+
+"📷 AI Camera Confirmed<br>" +
+
+"📡 Smart Radar Tracking Active<br>" +
+
+"📱 Alert Sent Successfully";
+
+
+// Detection Box
+document.getElementById("detectBox").style.display = "block";
+
+
+// Camera Status
+document.getElementById("cameraStatus").innerHTML =
+
+"🔴 Elephant Confirmed<br><br>" +
+
+"🎯 AI Confidence : 98%<br>" +
+
+"📷 Detection Completed";
+
+
+// Location
+document.getElementById("location").innerHTML =
+
+"📍 Zone A - 250m from Residential Area";
+
+
+// Statistics
+document.getElementById("detect").innerHTML = "1";
+document.getElementById("alerts").innerHTML = "1";
+
+
+// Play Siren
+alarm();
+
+
+
+},5000);
+
+</script>
+
+</body>
+</html>
